@@ -2,8 +2,9 @@
 % Matlab: delete last line ("main") and run
 
 function main
-  nn = 50;
-  AA = sprand(nn,nn,7.0/nn)
+  nn = 100;
+  npd_AA = sprand(nn,nn,7.0/nn); % npd_AA is not positive definite
+  AA = npd_AA'*npd_AA; % AA is positive definite
   xx = zeros(nn,1);
   bb = rand(nn,1);
   MM = eye(nn);
@@ -12,8 +13,11 @@ function main
   toller = 1.0e-4;
 
   [xx, err, it, ff ] = my_gmres(AA, xx, bb, MM, rr, mit, toller);
-  ff
-  it
+  if ff
+    fprintf('diverged in %d iterations\n',it)
+  else
+    fprintf('converged in %d iterations\n',it)
+  end
 end
 
 function [x, error, iter, flag] = my_gmres( A, x, b, M, restrt, max_it, tol )
