@@ -2,15 +2,32 @@
 % Matlab: delete last line ("main") and run
 
 function main
-  nn = 100;
-  npd_AA = sprand(nn,nn,7.0/nn); % npd_AA is not positive definite
-  AA = npd_AA'*npd_AA; % AA is positive definite
-  xx = zeros(nn,1);
-  bb = rand(nn,1);
-  MM = eye(nn);
+
+  % nn = 100;
+  % npd_AA = sprand(nn,nn,7.0/nn); % npd_AA is not positive definite
+  % AA = npd_AA'*npd_AA; % AA is positive definite
+  % bb = rand(nn,1);
+
+  % fd = fopen('AA.txt','r')
+  % fscanf(fd,'%f')
+  % fclose(fd)
+
+  load AA.dat
+  AA = spconvert(AA);
+
+  fd = fopen('bb.dat','r')
+  bb = fscanf(fd,'%f');
+  fclose(fd);
+
+  xx = zeros(size(bb,1),1);
+  MM = speye(size(bb,1));
   rr = 20;
   mit = 10000;
   toller = 1.0e-4;
+
+  display(size(AA))
+  display(size(xx))
+  display(size(bb))
 
   [xx, err, it, ff ] = my_gmres(AA, xx, bb, MM, rr, mit, toller);
   if ff
