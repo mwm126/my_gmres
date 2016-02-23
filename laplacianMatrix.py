@@ -1,8 +1,8 @@
 import random
 
-NX = 100
-NY = 100
-NZ = 100
+NX = 1000
+NY = 1000
+NZ = 1000
 ijkFixed = 1
 
 def map(i,j,k):
@@ -55,6 +55,8 @@ for i in range(0,NX):
         print >> fA, ijk, ijk, centerCoeff
 
 fA.close()
+fb.close()
+
 
 
       
